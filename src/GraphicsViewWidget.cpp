@@ -9,6 +9,9 @@
 #include "ImplicitSurface/ImplicitFunctionRenderer.hpp"
 #include "ImplicitSurface/ImplicitSurfaceMesh.hpp"
 
+#include "ImplicitSurface/Primitives/ImplicitSphere.hpp"
+#include "ImplicitSurface/Primitives/ImplicitTorus.hpp"
+
 #include <cmath>
 
 GraphicsViewWidget::GraphicsViewWidget(QWidget *parent)
@@ -38,61 +41,7 @@ void GraphicsViewWidget::initializeGL()
   // Default camera 
   camera_ = std::make_shared<Camera>();
 
-  // Default renderer
-  // renderer_ = std::make_unique<PrimitiveRenderer>(gl, camera_, 
-  //    std::make_unique<Cube>());
-  
-  // ImplicitFunctionPtr ifunctionPtr = std::make_shared<SphereImplicitFunction>();
-  // renderer_ = std::make_unique<ImplicitFunctionRenderer>(gl, camera_,
-  //   std::make_shared<ImplicitSurfaceMesh>(ifunctionPtr));    
-
-  // ImplicitFunctionPtr ifunctionPtr = 
-  //   std::make_shared<GlobalSkelPointImplicitFunction>(
-  //     QVector<SkelPointImplicitFunction>({
-  //       std::make_shared<WyvillImplicitFunction>(QVector3D(-2.0f, 0, 0), 1.0),
-  //       std::make_shared<WyvillImplicitFunction>(QVector3D(+2.0f, 0, 0), 1.0)
-  //     }));  
-
-  // ImplicitFunction f = [](const QVector3D &p) {
-  //   float d = QVector3D::dotProduct(p, p);
-  //   return d - 1.0f;
-  // };
-
-  // GradImplicitFunction fgrad = [](const QVector3D &p) {
-  //   return QVector3D{p.x()*2.0f, p.y()*2.0f, p.z()*2.0f};
-  // };
-
-  // skeletal primitive
-  QVector3D s0{-skelX_, 0.0f, 0.0f};
-  QVector3D s1{ skelX_, 0.0f, 0.0f};
-  
-  float r = 1.f;
-  std::function<float (float)> g = [r](float d) {    
-    return powf(1.0f - (d*d)/(r*r), 3.0f);
-  };
-  
-  ImplicitFunction f = [&s0,&s1,&g,r](const QVector3D &p) {
-    float d0 = p.distanceToPoint(s0);
-    float d1 = p.distanceToPoint(s1);
-
-    if (d0 > r && d1 > r)
-      return 0.0f;
-    else if (d0 > r) 
-      return g(d1);
-    else if (d1 > 1)
-      return g(d0);
-    else 
-      return g(d0) + g(d1);
-  };
-
-  ImplicitSurfaceMeshPtr mesh = std::make_shared<ImplicitSurfaceMesh>(
-    f,                                // implicit function
-    QVector3D{-2.0f,  2.0f, -2.0f},   // front top left corner
-    QVector3D{ 2.0f, -2.0f,  2.0f},   // back bottom right corner
-    0.05f,                             // cell side size
-    // fgrad,                            // gradient of f
-    0.5f                              // isovalue
-  );
+  ImplicitSurfaceMeshPtr mesh = std::make_shared<ImplicitTorus>(1.0f);
 
   renderer_ = std::make_unique<ImplicitFunctionRenderer>(gl, camera_, mesh);  
 
@@ -151,90 +100,6 @@ void GraphicsViewWidget::wheelEvent(QWheelEvent *e)
 
 void GraphicsViewWidget::keyPressEvent(QKeyEvent *e)
 {
-  using GlobalSkelPointImplicitFunctionPtr = 
-    std::shared_ptr<GlobalSkelPointImplicitFunction>;
-  using SkelPointImplicitFunction = 
-    typename GlobalSkelPointImplicitFunction::SkelPointImplicitFunctionPtr;
-  using ImplicitFunction = Polygonizer::ImplicitFunction;
-  using GradImplicitFunction = Polygonizer::GradImplicitFunction;
-  using ImplicitSurfaceMeshPtr = std::shared_ptr<ImplicitSurfaceMesh>;
-
-  camera_->keyPressEvent(e);
-
-  if (e->key() == Qt::Key_Plus) {
-    skelX_ += step_;
-    QVector3D s0{-skelX_, 0.0f, 0.0f};
-    QVector3D s1{ skelX_, 0.0f, 0.0f};
-
-
-    float r = 1.0f;
-    std::function<float (float)> g = [r](float d) {      
-      return powf(1.0f - (d*d)/(r*r), 3.0f);
-    };
-
-    ImplicitFunction f = [&s0,&s1,&g,r](const QVector3D &p) {
-      float d0 = p.distanceToPoint(s0);
-      float d1 = p.distanceToPoint(s1);
-
-      if (d0 > r && d1 > r)
-        return 0.0f;
-      else if (d0 > r) 
-        return g(d1);
-      else if (d1 > 1)
-        return g(d0);
-      else 
-        return g(d0) + g(d1);      
-    };
-
-    ImplicitSurfaceMeshPtr mesh = std::make_shared<ImplicitSurfaceMesh>(
-      f,                                 // implicit function
-      QVector3D{-2.0f,  2.0f, -2.0f},    // front top left corner
-      QVector3D{ 2.0f, -2.0f,  2.0f},    // back bottom right corner
-      0.05f,                             // cell side size
-      // fgrad,                            // gradient of f
-      0.5f                               // isovalue
-    );
-
-    dynamic_cast<ImplicitFunctionRenderer*>(renderer_.get())
-      ->changeMesh(mesh);
-  }
-  else if (e->key() == Qt::Key_Minus) {
-    skelX_ -= step_;
-    QVector3D s0{-skelX_, 0.0f, 0.0f};
-    QVector3D s1{ skelX_, 0.0f, 0.0f};
-
-    float r = 1.0f;
-    std::function<float (float)> g = [r](float d) {
-      return powf(1.0f - (d*d)/(r*r), 3.0f);
-    };
-
-    ImplicitFunction f = [&s0,&s1,&g,r](const QVector3D &p) {
-      float d0 = p.distanceToPoint(s0);
-      float d1 = p.distanceToPoint(s1);
-
-      if (d0 > r && d1 > r)
-        return 0.0f;
-      else if (d0 > r) 
-        return g(d1);
-      else if (d1 > 1)
-        return g(d0);
-      else 
-        return g(d0) + g(d1);
-    };
-
-    ImplicitSurfaceMeshPtr mesh = std::make_shared<ImplicitSurfaceMesh>(
-      f,                                // implicit function
-      QVector3D{-2.0f,  2.0f, -2.0f},   // front top left corner
-      QVector3D{ 2.0f, -2.0f,  2.0f},   // back bottom right corner
-      0.05f,                             // cell side size
-      // fgrad,                            // gradient of f
-      0.5f                              // isovalue
-    );
-
-    dynamic_cast<ImplicitFunctionRenderer*>(renderer_.get())
-      ->changeMesh(mesh);
-  }
-
   switch (e->key())
   {
   case Qt::Key_W:

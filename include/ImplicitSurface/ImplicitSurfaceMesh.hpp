@@ -32,7 +32,7 @@ public:
   QVector<QVector3D> &vertCoords() { return coords_; }
   QVector<QVector3D> &vertNormals() { return normals_; }
 
-private:
+protected:
   QVector<QVector3D> coords_;
   QVector<QVector3D> normals_;
 };
