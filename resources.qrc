@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+  <file>shaders/primitives/simple.vs</file>
+  <file>shaders/primitives/simple.fs</file>  
+</qresource>
+</RCC>
