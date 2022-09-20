@@ -356,12 +356,14 @@ bool Polygonizer::isLower(const QVector3D &l, const QVector3D &r) const
   return false;
 }
 
+int k;
 void Polygonizer::polygonize(ImplicitSurfaceMesh *mesh)
 {
-  int N = grid_.ncells();
-  
+  int N = grid_.ncells();  
+
   for (int i = 0; i < N; i++) {
-    const GridCell &c = grid_.cell(i);    
+    const GridCell &c = grid_.cell(i);        
+    k = i;
     polygonize(c, mesh);
   }
 }
@@ -379,7 +381,7 @@ void Polygonizer::polygonize(const GridCell &cell,
   if (cell.val(4) < isoval_) cubeindex |= 16;
   if (cell.val(5) < isoval_) cubeindex |= 32;
   if (cell.val(6) < isoval_) cubeindex |= 64;
-  if (cell.val(7) < isoval_) cubeindex |= 128;
+  if (cell.val(7) < isoval_) cubeindex |= 128;  
 
   if (edgeTable_[cubeindex] == 0)
     return;
@@ -407,16 +409,15 @@ void Polygonizer::polygonize(const GridCell &cell,
   if (edgeTable_[cubeindex] & 1024)
     vertlist[10] = interp(cell.vertex(2), cell.vertex(6), cell.val(2), cell.val(6));
   if (edgeTable_[cubeindex] & 2048)
-    vertlist[11] = interp(cell.vertex(3), cell.vertex(7), cell.val(3), cell.val(7));
-
+    vertlist[11] = interp(cell.vertex(3), cell.vertex(7), cell.val(3), cell.val(7));  
 
   for (int i = 0; triTable_[cubeindex][i] != -1; i+=3) {
     mesh->vertCoords().append(vertlist[triTable_[cubeindex][i  ]]);
     mesh->vertCoords().append(vertlist[triTable_[cubeindex][i+1]]);
-    mesh->vertCoords().append(vertlist[triTable_[cubeindex][i+2]]);
+    mesh->vertCoords().append(vertlist[triTable_[cubeindex][i+2]]);    
 
     if (fgrad_) {
-      // compute normals using the gradient of f
+      // compute normals using the gradient of f      
       int n = mesh->vertCoords().count();
       mesh->vertNormals().append(fgrad_(mesh->vertCoords()[n-3]).normalized());
       mesh->vertNormals().append(fgrad_(mesh->vertCoords()[n-2]).normalized());
@@ -426,9 +427,12 @@ void Polygonizer::polygonize(const GridCell &cell,
       // if we don't have the gradient of f, 
       // we compute normals using an approximation of the gradient
       int n = mesh->vertCoords().count();
+
       for (int j = 3; j > 0; j--) {
-        QVector3D normal;
+        QVector3D normal;        
+
         const QVector3D &v = mesh->vertCoords()[n-j];
+
         normal.setX( f_(QVector3D{v.x()-0.01f, v.y(), v.z()}) 
           - f_(QVector3D{v.x()+0.01f, v.y(), v.z()}));
         normal.setY( f_(QVector3D{v.x(), v.y()-0.01f, v.z()}) 

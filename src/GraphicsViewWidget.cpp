@@ -11,6 +11,7 @@
 
 #include "ImplicitSurface/Primitives/ImplicitSphere.hpp"
 #include "ImplicitSurface/Primitives/ImplicitTorus.hpp"
+#include "ImplicitSurface/Primitives/ImplicitTwoSkelPoints.hpp"
 
 #include <cmath>
 
@@ -41,7 +42,7 @@ void GraphicsViewWidget::initializeGL()
   // Default camera 
   camera_ = std::make_shared<Camera>();
 
-  ImplicitSurfaceMeshPtr mesh = std::make_shared<ImplicitTorus>(1.0f);
+  ImplicitSurfaceMeshPtr mesh = std::make_shared<ImplicitTwoSkelPoints>();
 
   renderer_ = std::make_unique<ImplicitFunctionRenderer>(gl, camera_, mesh);  
 
