@@ -23,6 +23,10 @@ public:
     float isovalue=0.0f);
 
 
+void setImplicitFuntion(ImplicitFunction f) { f_ = f; grid_.updateImplicitFunction(f); }
+void setGradImplicitFunction(GradImplicitFunction fgrad) { fgrad_ = fgrad; }
+void setIsoVal(float isoval) { isoval_ = isoval; }
+
 void polygonize(ImplicitSurfaceMesh *mesh);
 
 private:

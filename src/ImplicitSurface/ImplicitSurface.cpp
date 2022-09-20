@@ -16,18 +16,18 @@
 
 ImplicitSurfaceMesh::ImplicitSurfaceMesh(ImplicitFunction f,
   const QVector3D &tlf, const QVector3D &bbr, float cellSize,
-  float isovalue)
-{
-  Polygonizer p{f, tlf, bbr, cellSize, isovalue};
-  p.polygonize(this);
+  float isovalue):
+  polygonizer_{f, tlf, bbr, cellSize, isovalue}
+{  
+  polygonizer_.polygonize(this);
 }
 
 ImplicitSurfaceMesh::ImplicitSurfaceMesh(ImplicitFunction f,
   const QVector3D &tlf, const QVector3D &bbr, float cellSize,
-  GradImplicitFunction fgrad, float isovalue)
+  GradImplicitFunction fgrad, float isovalue):
+  polygonizer_{f, tlf, bbr, cellSize, fgrad, isovalue}
 {
-  Polygonizer p{f, tlf, bbr, cellSize, fgrad, isovalue};
-  p.polygonize(this);
+  polygonizer_.polygonize(this);
 }
 
 // ImplicitSurfaceMesh::ImplicitSurfaceMesh(ImplicitFunctionPtr f)

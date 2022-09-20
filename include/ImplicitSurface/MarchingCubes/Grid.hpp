@@ -47,6 +47,10 @@ public:
   const GridCell &cell(int i) const { return cells_[i]; }
   const GridCell &cell(int ix, int iy, int iz) const;
 
+  void updateImplicitFunction(ImplicitFunction f) { f_ = f; updateValues(); }
+
+  void updateValues();
+
 private:  
   QVector<GridCell> cells_;
   ImplicitFunction f_;

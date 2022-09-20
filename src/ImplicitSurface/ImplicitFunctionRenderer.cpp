@@ -53,10 +53,8 @@ void ImplicitFunctionRenderer::initBuffers()
   shaderProgram_.release();
 }
 
-void ImplicitFunctionRenderer::changeMesh(ImplicitSurfacePtr mesh)
+void ImplicitFunctionRenderer::updateVBOs()
 {
-  meshSurface_ = mesh;
-
   const QVector<QVector3D> &vertCoords = meshSurface_->vertCoords();
   const QVector<QVector3D> &vertNormals = meshSurface_->vertNormals();
   // const QVector<uint32> &indices = meshSurface_->indices();
@@ -72,6 +70,7 @@ void ImplicitFunctionRenderer::changeMesh(ImplicitSurfacePtr mesh)
   normalsVBO_.allocate(vertNormals.constData(), vertNormals.count() * sizeof(QVector3D));
 
   shaderProgram_.release();
+  meshSurface_->setHasChanged(false);
 
   update();
 }
@@ -85,12 +84,41 @@ void ImplicitFunctionRenderer::updateUniforms()
   shaderProgram_.release();
 }
 
+void ImplicitFunctionRenderer::mouseMoveEvent(QMouseEvent *e)
+{
+  meshSurface_->mouseMoveEvent(e);
+}
+
+void ImplicitFunctionRenderer::mousePressEvent(QMouseEvent *e)
+{
+  meshSurface_->mousePressEvent(e);
+}
+
+void ImplicitFunctionRenderer::mouseReleaseEvent(QMouseEvent *e)
+{
+  meshSurface_->mouseReleaseEvent(e);
+}
+
+void ImplicitFunctionRenderer::wheelEvent(QWheelEvent *e)
+{
+  meshSurface_->wheelEvent(e);
+}
+
+void ImplicitFunctionRenderer::keyPressEvent(QKeyEvent *e)
+{
+  meshSurface_->keyPressEvent(e);
+}
+
 void ImplicitFunctionRenderer::update()
 {
+  if (meshSurface_->hasChanged()) {
+    updateVBOs();    
+  }
+
   if (camera_->isUniformUpdatedRequired()) {
     updateUniforms();
     camera_->setUniformUpdatedRequired(false);
-  }
+  }  
 }
 
 void ImplicitFunctionRenderer::draw()

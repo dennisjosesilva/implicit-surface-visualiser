@@ -76,14 +76,14 @@ void GraphicsViewWidget::paintGL()
 void GraphicsViewWidget::mouseMoveEvent(QMouseEvent *e)
 {
   camera_->mouseMoveEvent(e);
-  //renderer_->mouseMoveEvent(e);
+  renderer_->mouseMoveEvent(e);
   update();
 }
 
 void GraphicsViewWidget::mousePressEvent(QMouseEvent *e)
 {
   camera_->mousePressEvent(e);
-  //renderer_->mousePressEvent(e);
+  renderer_->mousePressEvent(e);
   update();
 }
 
@@ -95,7 +95,7 @@ void GraphicsViewWidget::mouseReleaseEvent(QMouseEvent *e)
 void GraphicsViewWidget::wheelEvent(QWheelEvent *e)
 {
   camera_->wheelEvent(e);
-  //renderer_->wheelEvent(e);
+  renderer_->wheelEvent(e);
   update();
 }
 
@@ -111,6 +111,6 @@ void GraphicsViewWidget::keyPressEvent(QKeyEvent *e)
     QOpenGLWidget::keyPressEvent(e);
   }
 
-  //renderer_->keyPressEvent(e);
+  renderer_->keyPressEvent(e);
   update();
 }

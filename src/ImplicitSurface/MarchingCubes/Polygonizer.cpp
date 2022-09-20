@@ -356,14 +356,12 @@ bool Polygonizer::isLower(const QVector3D &l, const QVector3D &r) const
   return false;
 }
 
-int k;
 void Polygonizer::polygonize(ImplicitSurfaceMesh *mesh)
 {
   int N = grid_.ncells();  
 
   for (int i = 0; i < N; i++) {
     const GridCell &c = grid_.cell(i);        
-    k = i;
     polygonize(c, mesh);
   }
 }

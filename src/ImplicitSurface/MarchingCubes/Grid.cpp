@@ -46,5 +46,14 @@ Grid::Grid(ImplicitFunction f, const QVector3D &ftl, const QVector3D &bbr,
         cells_.append(c);
       }
     }
+  }  
+}
+
+void Grid::updateValues()
+{
+  for (GridCell &c : cells_) {
+    for (int i = 0; i < c.vals().size(); ++i) {
+      c.val(i) = f_(c.vertex(i));
+    }
   }
 }

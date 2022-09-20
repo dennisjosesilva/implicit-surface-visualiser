@@ -5,6 +5,10 @@
 #include "ImplicitSurface/MarchingCubes/Polygonizer.hpp"
 #include "alias.hpp"
 
+#include <QMouseEvent>
+#include <QScrollEvent>
+#include <QKeyEvent>
+
 // =============================================================================================
 // Implicit surface mesh is a class that represent an implicit surface 
 // polygonisation built upon CGAL 3D Surface mesh Generation example
@@ -24,15 +28,27 @@ public:
   ImplicitSurfaceMesh(ImplicitFunction f,
     const QVector3D &tlf, const QVector3D &bbr,
     float cellSize, GradImplicitFunction fgrad, 
-    float isovalue=0.0f);
+    float isovalue=0.0f);  
 
-  const QVector<QVector3D> &vertCoords() const { return coords_; };
-  const QVector<QVector3D> &vertNormals() const { return normals_; };
+  const QVector<QVector3D> &vertCoords() const { return coords_; }
+  const QVector<QVector3D> &vertNormals() const { return normals_; }
 
   QVector<QVector3D> &vertCoords() { return coords_; }
   QVector<QVector3D> &vertNormals() { return normals_; }
 
+  bool hasChanged() const { return hasChanged_; }
+  void setHasChanged(bool val) { hasChanged_ = val; }
+
+  virtual void mouseMoveEvent(QMouseEvent *e){}
+  virtual void mousePressEvent(QMouseEvent *e){}
+  virtual void mouseReleaseEvent(QMouseEvent *e){}
+
+  virtual void wheelEvent(QWheelEvent *e){}
+  virtual void keyPressEvent(QKeyEvent *e){}
+
 protected:
+  Polygonizer polygonizer_;
   QVector<QVector3D> coords_;
   QVector<QVector3D> normals_;
+  bool hasChanged_;
 };

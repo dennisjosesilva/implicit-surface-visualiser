@@ -20,12 +20,19 @@ public:
   ImplicitFunctionRenderer(QOpenGLFunctions *gl,
     CameraPtr camera, ImplicitSurfacePtr f);
 
-  void changeMesh(ImplicitSurfacePtr mesh);
+  void updateVBOs();
 
   void initShaders() override;
   void initBuffers() override;
 
   void updateUniforms();
+
+  void mouseMoveEvent(QMouseEvent *e);
+  void mousePressEvent(QMouseEvent *e);
+  void mouseReleaseEvent(QMouseEvent *e);
+
+  void wheelEvent(QWheelEvent *e);
+  void keyPressEvent(QKeyEvent *e);
 
   void update() override;
 
