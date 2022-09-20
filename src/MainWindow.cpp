@@ -4,7 +4,7 @@ MainWindow::MainWindow()
 {
   setWindowTitle("Implicit surface visualiser");
 
-  gview_ = new GraphicsViewWidget{this};
-  setCentralWidget(gview_);
+  mainWidget_ = new MainWidget{this};
+  setCentralWidget(mainWidget_);
 }
 

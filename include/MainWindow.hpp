@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
-#include "GraphicsViewWidget.hpp"
+#include "MainWidget.hpp"
 
 
 class MainWindow : public QMainWindow
@@ -11,5 +11,5 @@ public:
   MainWindow();
 
 private:  
-  GraphicsViewWidget *gview_;
+  MainWidget *mainWidget_;
 };

@@ -12,6 +12,8 @@ public:
   GraphicsViewWidget(QWidget *parent = nullptr);
   ~GraphicsViewWidget() {}
 
+  QSize sizeHint() const override { return QSize{720, 720}; }
+
 protected:
   void initializeGL() override;
   void resizeGL(int newWidth, int newHeight) override;
