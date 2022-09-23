@@ -38,8 +38,6 @@ namespace implicit
 
     using ImplicitFunctionPtr = std::shared_ptr<ImplicitFunction>;
 
-    Mesh polygonize();
-
   private:
     void makeCubeTable();
     Test find(bool isPosSign);

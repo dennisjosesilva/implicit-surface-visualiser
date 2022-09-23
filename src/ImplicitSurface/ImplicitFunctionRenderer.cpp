@@ -1,5 +1,9 @@
 #include "ImplicitSurface/ImplicitFunctionRenderer.hpp"
 
+#include "ImplicitSurface/Primitives/ImplicitSphere.hpp"
+#include "ImplicitSurface/Primitives/ImplicitTorus.hpp"
+#include "ImplicitSurface/Primitives/ImplicitTwoSkelPoints.hpp"
+
 ImplicitFunctionRenderer::ImplicitFunctionRenderer(
   QOpenGLFunctions *gl, CameraPtr camera, 
   ImplicitSurfacePtr meshSurface)
@@ -22,6 +26,7 @@ void ImplicitFunctionRenderer::initShaders()
 
 void ImplicitFunctionRenderer::initBuffers()
 {
+  meshSurface_->polygonize();
   const QVector<QVector3D> &vertCoords = meshSurface_->vertCoords();
   const QVector<QVector3D> &vertNormals = meshSurface_->vertNormals();
   // const QVector<uint32> &indices = meshSurface_->indices();
@@ -53,11 +58,58 @@ void ImplicitFunctionRenderer::initBuffers()
   shaderProgram_.release();
 }
 
+void ImplicitFunctionRenderer::changeMesh(ImplicitPrimitiveType type)
+{    
+  updateMesh(type);
+
+  const QVector<QVector3D> &vertCoords = meshSurface_->vertCoords();
+  const QVector<QVector3D> &vertNormals = meshSurface_->vertNormals();
+  // const QVector<uint32> &indices = meshSurface_->indices();
+
+  shaderProgram_.bind();
+
+  QOpenGLVertexArrayObject::Binder{&vao_};
+
+  coordsVBO_.bind();
+  coordsVBO_.allocate(vertCoords.constData(), vertCoords.count() * sizeof(QVector3D));
+
+  normalsVBO_.bind();
+  normalsVBO_.allocate(vertNormals.constData(), vertNormals.count() * sizeof(QVector3D));
+
+  shaderProgram_.release();
+
+  update();
+}
+
+
+void ImplicitFunctionRenderer::updateMesh(ImplicitPrimitiveType type)
+{  
+  switch (type)
+  {
+  case ImplicitPrimitiveType::SPHERE:         
+    meshSurface_ = std::make_shared<ImplicitSphere>();
+    break;
+  
+  case ImplicitPrimitiveType::TORUS: {
+    std::shared_ptr<ImplicitSurfaceMesh> mesh = 
+      std::make_shared<ImplicitTorus>();
+    meshSurface_ = std::make_shared<ImplicitTorus>();    
+    break;
+  }
+  case ImplicitPrimitiveType::TWO_SKEL_POINTS:
+    meshSurface_ = std::make_shared<ImplicitTwoSkelPoints>();
+    break;
+
+  default:
+    break;
+  }  
+}
+
 void ImplicitFunctionRenderer::updateVBOs()
 {
   const QVector<QVector3D> &vertCoords = meshSurface_->vertCoords();
   const QVector<QVector3D> &vertNormals = meshSurface_->vertNormals();
-  // const QVector<uint32> &indices = meshSurface_->indices();
+  // const QVector<uint32> &indices = meshSurface_->indices();  
 
   shaderProgram_.bind();
 

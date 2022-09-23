@@ -20,6 +20,7 @@ public:
   ImplicitFunctionRenderer(QOpenGLFunctions *gl,
     CameraPtr camera, ImplicitSurfacePtr f);
 
+  void changeMesh(ImplicitPrimitiveType type);  
   void updateVBOs();
 
   void initShaders() override;
@@ -39,6 +40,8 @@ public:
   void draw() override;
 
 private:
+  void updateMesh(ImplicitPrimitiveType type);
+
   ImplicitSurfacePtr meshSurface_;  
 
   QOpenGLVertexArrayObject vao_;

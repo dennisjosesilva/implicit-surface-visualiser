@@ -114,3 +114,9 @@ void GraphicsViewWidget::keyPressEvent(QKeyEvent *e)
   renderer_->keyPressEvent(e);
   update();
 }
+
+void GraphicsViewWidget::changeImplicitPrimitive(ImplicitPrimitiveType type)
+{  
+  renderer_->changeMesh(type);
+  update();
+}

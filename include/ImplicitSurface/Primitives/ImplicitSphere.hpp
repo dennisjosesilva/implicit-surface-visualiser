@@ -10,4 +10,7 @@ public:
 
   ImplicitFunction implicitFunction(float radius) const;
   GradImplicitFunction gradImplicitFunction(float radius) const; 
+
+  ImplicitPrimitiveType type() const { return ImplicitPrimitiveType::SPHERE; }
+
 };

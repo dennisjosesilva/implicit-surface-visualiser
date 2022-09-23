@@ -18,10 +18,6 @@ qt5_wrap_cpp(PROJECT_SOURCE
 
 qt5_add_resources(PROJECT_SOURCE resources.qrc)
 
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
-
 add_executable(ImplicitSurface ${PROJECT_SOURCE})
 target_link_libraries(ImplicitSurface PUBLIC
   Qt5::Core 

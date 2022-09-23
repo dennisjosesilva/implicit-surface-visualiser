@@ -11,6 +11,8 @@ public:
 
   void keyPressEvent(QKeyEvent *e) override;
 
+  ImplicitPrimitiveType type() const { return ImplicitPrimitiveType::TWO_SKEL_POINTS; }
+
 private:
   void clear();
 

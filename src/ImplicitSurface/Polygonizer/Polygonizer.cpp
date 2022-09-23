@@ -6,11 +6,6 @@ namespace implicit
 {
   const int Polygonizer::N_ITER_CONVERGENCY = 10;
 
-  Mesh Polygonizer::polygonize()
-  {
-
-  }
-
 
   /*
    isPosSign indicates if the function is looking for a point evaluated 

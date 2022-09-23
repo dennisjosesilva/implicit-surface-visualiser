@@ -10,4 +10,6 @@ public:
 
   ImplicitFunction implicitFunction(float R, float r) const;
   GradImplicitFunction gradImplicitFunction(float R, float r) const;
+
+  ImplicitPrimitiveType type() const { return ImplicitPrimitiveType::TORUS; }
 };

@@ -1,6 +1,8 @@
 #include "GraphicsViewWidget.hpp"
 #include <QWidget>
 
+class QComboBox;
+
 class MainWidget : public QWidget
 {
 public:
@@ -8,6 +10,11 @@ public:
 
   void resizeEvent(QResizeEvent *e);
 
+protected slots:
+  void primitiveComboBox_currentIndexChanged(int index);
+
+
 private:
   GraphicsViewWidget *gview_;
+  QComboBox *primitiveComboBox_;
 };

@@ -15,6 +15,12 @@
 // https://doc.cgal.org/latest/Surface_mesher/index.html#Chapter_3D_Surface_Mesh_Generation
 // =============================================================================================
 
+enum ImplicitPrimitiveType {
+  SPHERE,
+  TORUS,
+  TWO_SKEL_POINTS
+};
+
 class ImplicitSurfaceMesh
 {
 public:
@@ -29,6 +35,8 @@ public:
     const QVector3D &tlf, const QVector3D &bbr,
     float cellSize, GradImplicitFunction fgrad, 
     float isovalue=0.0f);  
+
+  void polygonize() { polygonizer_.polygonize(this); }
 
   const QVector<QVector3D> &vertCoords() const { return coords_; }
   const QVector<QVector3D> &vertNormals() const { return normals_; }
@@ -45,6 +53,8 @@ public:
 
   virtual void wheelEvent(QWheelEvent *e){}
   virtual void keyPressEvent(QKeyEvent *e){}
+
+  virtual ImplicitPrimitiveType type() const = 0;
 
 protected:
   Polygonizer polygonizer_;
