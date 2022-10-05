@@ -18,7 +18,8 @@
 enum ImplicitPrimitiveType {
   SPHERE,
   TORUS,
-  TWO_SKEL_POINTS
+  TWO_SKEL_POINTS,
+  LINE_SKEL
 };
 
 class ImplicitSurfaceMesh
