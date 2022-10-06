@@ -6,7 +6,7 @@
 class ImplicitLineSkel : public ImplicitSurfaceMesh
 {
 public:
-  ImplicitLineSkel(float R=1.0f, float cellSize=0.05);
+  ImplicitLineSkel(float R=1.0f, float cellSize=0.15);
 
   ImplicitFunction implicitFunction(float R) const;
 

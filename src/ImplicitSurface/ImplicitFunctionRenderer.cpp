@@ -3,6 +3,7 @@
 #include "ImplicitSurface/Primitives/ImplicitSphere.hpp"
 #include "ImplicitSurface/Primitives/ImplicitTorus.hpp"
 #include "ImplicitSurface/Primitives/ImplicitTwoSkelPoints.hpp"
+#include "ImplicitSurface/Primitives/ImplicitLineSkel.hpp"
 
 ImplicitFunctionRenderer::ImplicitFunctionRenderer(
   QOpenGLFunctions *gl, CameraPtr camera, 
@@ -98,6 +99,10 @@ void ImplicitFunctionRenderer::updateMesh(ImplicitPrimitiveType type)
   }
   case ImplicitPrimitiveType::TWO_SKEL_POINTS:
     meshSurface_ = std::make_shared<ImplicitTwoSkelPoints>();
+    break;
+
+  case ImplicitPrimitiveType::LINE_SKEL:
+    meshSurface_ = std::make_shared<ImplicitLineSkel>();
     break;
 
   default:

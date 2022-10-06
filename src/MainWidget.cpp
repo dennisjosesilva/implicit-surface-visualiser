@@ -27,9 +27,10 @@ MainWidget::MainWidget(QWidget *parent)
   primitiveLayout->addWidget(label);
 
   primitiveComboBox_ = new QComboBox{leftWidget};
-  primitiveComboBox_->addItem("Sphere");
-  primitiveComboBox_->addItem("Torus");
-  primitiveComboBox_->addItem("Skel Points");
+  primitiveComboBox_->addItem("Sphere", ImplicitPrimitiveType::SPHERE);
+  primitiveComboBox_->addItem("Torus", ImplicitPrimitiveType::TORUS);
+  primitiveComboBox_->addItem("Skel Points", ImplicitPrimitiveType::TWO_SKEL_POINTS);
+  primitiveComboBox_->addItem("Skel line", ImplicitPrimitiveType::LINE_SKEL);
   connect(primitiveComboBox_, QOverload<int>::of(&QComboBox::currentIndexChanged), 
     this, &MainWidget::primitiveComboBox_currentIndexChanged);
   primitiveLayout->addWidget(primitiveComboBox_);
@@ -49,14 +50,9 @@ MainWidget::MainWidget(QWidget *parent)
 
 void MainWidget::primitiveComboBox_currentIndexChanged(int index)
 {
-  if (primitiveComboBox_->currentText() == "Skel Points") {
-    gview_->changeImplicitPrimitive(ImplicitPrimitiveType::TWO_SKEL_POINTS);
-  } else if (primitiveComboBox_->currentText() == "Torus") {
-    gview_->changeImplicitPrimitive(ImplicitPrimitiveType::TORUS);
-  }
-  else if (primitiveComboBox_->currentText() == "Sphere") {
-    gview_->changeImplicitPrimitive(ImplicitPrimitiveType::SPHERE);
-  }
+  ImplicitPrimitiveType primitiveType = 
+    static_cast<ImplicitPrimitiveType>(primitiveComboBox_->currentData().toInt());
+  gview_->changeImplicitPrimitive(primitiveType);
 }
 
 void MainWidget::resizeEvent(QResizeEvent *e)
