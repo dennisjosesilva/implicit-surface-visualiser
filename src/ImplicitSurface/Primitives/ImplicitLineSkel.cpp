@@ -19,7 +19,7 @@ ImplicitLineSkel::ImplicitLineSkel(float R, float cellSize)
 ImplicitLineSkel::ImplicitFunction
 ImplicitLineSkel::implicitFunction(float R) const
 {
-  QVector3D e1{-2.0f, 0.0f, 0.0f}, e2{2.0f, 0.0f, 0.0f};
+  QVector3D e1{-1.0f, 0.0f, 0.0f}, e2{1.0f, 0.0f, 0.0f};
   QVector3D u = e2 - e1;
 
   std::function<float (float)> g = [R](float d) {
@@ -51,11 +51,12 @@ ImplicitLineSkel::implicitFunction(float R) const
       return g(p.distanceToPoint(e2));
     }
     else {
-      qDebug() << aux;
       // project p into the line (e1, e2) and
       // return the length of line segment defined by the projection
       QVector3D proj = e1 + aux*u;
       QVector3D projToP = p - proj;
+      float val = g(projToP.length());
+      qDebug() << projToP.length() << ", " << val;
       return g(projToP.length());
     }
   };

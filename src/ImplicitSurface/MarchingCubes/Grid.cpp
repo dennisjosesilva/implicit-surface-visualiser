@@ -1,4 +1,5 @@
 #include "ImplicitSurface/MarchingCubes/Grid.hpp"
+#include <QList>
 
 GridCell::GridCell()
 {}
@@ -56,4 +57,39 @@ void Grid::updateValues()
       c.val(i) = f_(c.vertex(i));
     }
   }
+}
+
+GridMesh Grid::genGridMesh() const
+{
+  // Initialise return GridMesh and initial vertex index
+  GridMesh mesh;
+  unsigned int idx = 0;
+  
+  mesh.vertcoords.reserve(8*cells_.size());
+  mesh.indices.reserve(6*4*cells_.size());
+
+  // compute the GL_LINE_LOOP mesh for each cell
+  for (const GridCell &c : cells_) {
+    // define cell vertex indices
+    unsigned int i0 = idx,   i1 = idx+1, i2 = idx+2, i3 = idx+3,
+                 i4 = idx+4, i5 = idx+5, i6 = idx+6, i7 = idx+7;     
+
+    // push the vertex coords to the mesh
+    mesh.vertcoords.append({
+      c.vertex(0), c.vertex(1), c.vertex(2), c.vertex(3),
+      c.vertex(4), c.vertex(5), c.vertex(6), c.vertex(7)});
+
+    // include the indices of each border line for each 
+    // face of the cell
+    mesh.indices.append({i0, i1, i2, i3}); // bottom face
+    mesh.indices.append({i4, i5, i6, i7}); // top face
+    mesh.indices.append({i3, i2, i6, i7}); // front face
+    mesh.indices.append({i4, i5, i1, i0}); // back face
+    mesh.indices.append({i0, i3, i7, i4}); // left face
+    mesh.indices.append({i1, i2, i6, i5}); // right face
+    
+    idx += 8;
+  }
+  
+  return mesh;
 }

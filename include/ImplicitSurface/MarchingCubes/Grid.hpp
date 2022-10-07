@@ -7,6 +7,12 @@
 #include "ImplicitSurface/ImplicitFunction.hpp"
 #include <functional>
 
+struct GridMesh
+{
+  QVector<QVector3D> vertcoords;
+  QVector<unsigned int> indices;
+};
+
 class GridCell 
 {
 public:
@@ -50,6 +56,8 @@ public:
   void updateImplicitFunction(ImplicitFunction f) { f_ = f; updateValues(); }
 
   void updateValues();
+
+  GridMesh genGridMesh() const;
 
 private:  
   QVector<GridCell> cells_;
