@@ -5,7 +5,7 @@
 
 #include <memory>
 
-#include <QOpenGLFunctions>
+#include <QOpenGLFunctions_4_1_Core>
 
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -17,7 +17,7 @@ public:
   using CameraPtr = std::shared_ptr<Camera>;
 
   Renderer(): gl_{nullptr} {}
-  Renderer(QOpenGLFunctions *gl, CameraPtr camera);
+  Renderer(QOpenGLFunctions_4_1_Core *gl, CameraPtr camera);
 
   virtual void initShaders() = 0;
   virtual void initBuffers() = 0;
@@ -32,6 +32,6 @@ public:
   virtual void keyPressEvent(QKeyEvent *e);
 
 protected:
-  QOpenGLFunctions *gl_;
+  QOpenGLFunctions_4_1_Core *gl_;
   CameraPtr camera_;
 };

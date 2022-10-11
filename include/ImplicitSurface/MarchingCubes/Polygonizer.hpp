@@ -29,6 +29,8 @@ void setIsoVal(float isoval) { isoval_ = isoval; }
 
 void polygonize(ImplicitSurfaceMesh *mesh);
 
+GridMesh genGridMesh() const { return grid_.genGridMesh(); }
+
 private:
   void polygonize(const GridCell &cell, 
     ImplicitSurfaceMesh *mesh);

@@ -1,6 +1,8 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
   <file>shaders/primitives/simple.vs</file>
-  <file>shaders/primitives/simple.fs</file>  
+  <file>shaders/primitives/simple.fs</file>
+  <file>shaders/marching-cubes-grid/cube.vs</file>
+  <file>shaders/marching-cubes-grid/cube.fs</file>  
 </qresource>
 </RCC>

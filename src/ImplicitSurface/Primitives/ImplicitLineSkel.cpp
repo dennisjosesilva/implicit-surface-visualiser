@@ -9,7 +9,7 @@ ImplicitLineSkel::ImplicitLineSkel(float R, float cellSize)
     implicitFunction(R),
     QVector3D{-5.0f,  5.0f, -5.0f},
     QVector3D{ 5.0f, -5.0f,  5.0f},
-    0.1f,
+    0.25f,
     0.5f}
 {}
 

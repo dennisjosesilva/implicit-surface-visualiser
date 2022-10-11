@@ -45,6 +45,8 @@ public:
   QVector<QVector3D> &vertCoords() { return coords_; }
   QVector<QVector3D> &vertNormals() { return normals_; }
 
+  GridMesh genGridMesh() const { return polygonizer_.genGridMesh(); }
+
   bool hasChanged() const { return hasChanged_; }
   void setHasChanged(bool val) { hasChanged_ = val; }
 

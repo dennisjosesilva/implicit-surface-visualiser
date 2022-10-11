@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-PrimitiveRenderer::PrimitiveRenderer(QOpenGLFunctions *gl, 
+PrimitiveRenderer::PrimitiveRenderer(QOpenGLFunctions_4_1_Core *gl, 
   CameraPtr camera, MeshPtr mesh)
   : Renderer{gl, camera}, mesh_{std::move(mesh)},
     meshCoordsVBO_{QOpenGLBuffer::VertexBuffer},

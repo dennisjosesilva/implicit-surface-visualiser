@@ -6,9 +6,13 @@
 
 #include "ImplicitSurface/ImplicitFunction.hpp"
 #include <functional>
+#include <limits>
+
 
 struct GridMesh
 {
+  static const unsigned int RESET_INDEX = std::numeric_limits<unsigned int>::max();
+
   QVector<QVector3D> vertcoords;
   QVector<unsigned int> indices;
 };

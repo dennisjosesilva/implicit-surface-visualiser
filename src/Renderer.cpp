@@ -1,7 +1,7 @@
 #include "Renderer.hpp"
 
 
-Renderer::Renderer(QOpenGLFunctions *gl, CameraPtr camera)
+Renderer::Renderer(QOpenGLFunctions_4_1_Core *gl, CameraPtr camera)
   :gl_{gl}, camera_{camera}
 {}
 

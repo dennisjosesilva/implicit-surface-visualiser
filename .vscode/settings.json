@@ -74,6 +74,7 @@
     "fstream": "cpp",
     "iomanip": "cpp",
     "sstream": "cpp",
-    "typeindex": "cpp"
+    "typeindex": "cpp",
+    "qopenglfunctions_4_1_core": "cpp"
   }
 }

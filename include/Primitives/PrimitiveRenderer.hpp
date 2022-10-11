@@ -14,7 +14,7 @@ class PrimitiveRenderer : public Renderer
 public:
   using MeshPtr = std::unique_ptr<PrimitiveMesh>;
 
-  PrimitiveRenderer(QOpenGLFunctions *gl, 
+  PrimitiveRenderer(QOpenGLFunctions_4_1_Core *gl, 
     CameraPtr camera, MeshPtr mesh);
 
   void initShaders() override;

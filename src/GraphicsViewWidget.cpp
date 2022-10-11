@@ -12,13 +12,14 @@
 #include "ImplicitSurface/Primitives/ImplicitSphere.hpp"
 #include "ImplicitSurface/Primitives/ImplicitTorus.hpp"
 #include "ImplicitSurface/Primitives/ImplicitTwoSkelPoints.hpp"
-
+#include <QOpenGLFunctions> 
 #include <cmath>
 
 GraphicsViewWidget::GraphicsViewWidget(QWidget *parent)
   : QOpenGLWidget{parent}, isWireframeMode_{false},
     skelX_{0.600},
-    step_{0.05}
+    step_{0.05},
+    shouldShowGrid_{false}
 {}
 
 void GraphicsViewWidget::initializeGL()
@@ -37,7 +38,7 @@ void GraphicsViewWidget::initializeGL()
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LEQUAL);
 
-  QOpenGLFunctions *gl = QOpenGLContext::currentContext()->functions();
+  QOpenGLFunctions_4_1_Core *gl = context()->versionFunctions<QOpenGLFunctions_4_1_Core>();
 
   // Default camera 
   camera_ = std::make_shared<Camera>();
@@ -106,6 +107,20 @@ void GraphicsViewWidget::keyPressEvent(QKeyEvent *e)
   case Qt::Key_W:
     isWireframeMode_ = !isWireframeMode_;   
     break;
+
+  case Qt::Key_G: 
+  {
+    if (!shouldShowGrid_) {
+      makeCurrent();
+      renderer_->showMarchingCubeGrid();
+      shouldShowGrid_ = true;
+    }
+    else {
+      makeCurrent();
+      renderer_->removeMarchingCubeGrid();
+      shouldShowGrid_ = false;
+    }
+  }
 
   default:
     QOpenGLWidget::keyPressEvent(e);

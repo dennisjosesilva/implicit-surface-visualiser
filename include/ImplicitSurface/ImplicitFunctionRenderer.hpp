@@ -17,10 +17,14 @@ class ImplicitFunctionRenderer : public Renderer
 public:
   using ImplicitSurfacePtr = std::shared_ptr<ImplicitSurfaceMesh>;
 
-  ImplicitFunctionRenderer(QOpenGLFunctions *gl,
+  ImplicitFunctionRenderer(QOpenGLFunctions_4_1_Core *gl,
     CameraPtr camera, ImplicitSurfacePtr f);
 
   void changeMesh(ImplicitPrimitiveType type);  
+
+  void showMarchingCubeGrid();
+  void removeMarchingCubeGrid();
+
   void updateVBOs();
 
   void initShaders() override;
@@ -44,14 +48,29 @@ private:
 
   ImplicitSurfacePtr meshSurface_;  
 
+  void drawImplicitSurface();
+  void drawMarchingCubesGrid();
+
+
   QOpenGLVertexArrayObject vao_;
   QOpenGLBuffer coordsVBO_;
   QOpenGLBuffer normalsVBO_;
-  QOpenGLBuffer indicesVBO_;
+ // QOpenGLBuffer indicesVBO_;
 
   uint32 uniModelViewMatrix_;
   uint32 uniProjectMatrix_;
   uint32 uniNormalMatrix_;
 
   QOpenGLShaderProgram shaderProgram_;
+
+  QOpenGLShaderProgram shaderProgramGrid_;
+  QOpenGLVertexArrayObject vaoGrid_;
+  QOpenGLBuffer coordsVBOGrid_;
+  QOpenGLBuffer indicesVBOGrid_;
+
+  uint32 uniModelViewMatrixGrid_;
+  uint32 uniProjectionMatrixGrid_;
+
+  bool showGrid_;
+  unsigned int numIndicesGrid_;
 };

@@ -81,12 +81,12 @@ GridMesh Grid::genGridMesh() const
 
     // include the indices of each border line for each 
     // face of the cell
-    mesh.indices.append({i0, i1, i2, i3}); // bottom face
-    mesh.indices.append({i4, i5, i6, i7}); // top face
-    mesh.indices.append({i3, i2, i6, i7}); // front face
-    mesh.indices.append({i4, i5, i1, i0}); // back face
-    mesh.indices.append({i0, i3, i7, i4}); // left face
-    mesh.indices.append({i1, i2, i6, i5}); // right face
+    mesh.indices.append({i0, i1, i2, i3, GridMesh::RESET_INDEX}); // bottom face
+    mesh.indices.append({i4, i5, i6, i7, GridMesh::RESET_INDEX}); // top face
+    mesh.indices.append({i3, i2, i6, i7, GridMesh::RESET_INDEX}); // front face
+    mesh.indices.append({i4, i5, i1, i0, GridMesh::RESET_INDEX}); // back face
+    mesh.indices.append({i0, i3, i7, i4, GridMesh::RESET_INDEX}); // left face
+    mesh.indices.append({i1, i2, i6, i5, GridMesh::RESET_INDEX}); // right face
     
     idx += 8;
   }

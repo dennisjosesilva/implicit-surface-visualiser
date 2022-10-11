@@ -9,7 +9,7 @@
 #include "ImplicitSurface/ImplicitSurfaceMesh.hpp"
 #include <memory>
 
-class GraphicsViewWidget : public QOpenGLWidget, QOpenGLFunctions
+class GraphicsViewWidget : public QOpenGLWidget, QOpenGLFunctions_4_1_Core
 {
   Q_OBJECT
 public:
@@ -39,4 +39,5 @@ private:
   std::unique_ptr<ImplicitFunctionRenderer> renderer_;
   std::shared_ptr<Camera> camera_;
   bool isWireframeMode_;
+  bool shouldShowGrid_;
 };
